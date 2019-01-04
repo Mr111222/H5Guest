@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+</head>
+<link rel="stylesheet" href="./index.css">
+
+<body>
+  <div class="main">
+      <div class="top">
+          <h2>您的积分剩余<span class="playnum"></span></h2>
+      </div>
+      <div class="changeBtn">
+        <button class="btns btnL">普通转盘</button>
+        <button class="btns btnR">豪华转盘</button>
+      </div>
+ 
+    <div class="wrapper">
+      <div class="panel"></div>
+      <img src="./imgs/playbtn.png" alt="" class="pointer">
+    </div> 
+    <div class="lv">
+        <div class="lv_l">
+          <div calss="tops">
+            <p>选择1</p>
+            <div>
+              <button class="btnSub">-</button><span class="vals1 spanVal">10</span><button class="btnAdd">+</button>
+            </div>
+          </div>
+          <div calss="tops">
+            <p>选择2</p>
+            <div>
+              <button class="btnSub">-</button><span class="vals2 spanVal">20</span><button class="btnAdd">+</button>
+            </div>
+          </div>
+        </div>
+        <div class="lv_r">
+          <div calss="tops">
+            <p>选择3</p>
+            <div>
+              <button class="btnSub">-</button><span class="vals3 spanVal">30</span><button class="btnAdd">+</button>
+            </div>
+          </div>
+          <div calss="tops">
+            <p>选择4</p>
+            <div>
+              <button class="btnSub">-</button><span class="vals4 spanVal">40</span><button class="btnAdd">+</button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <h4 style="clear:both;">已经有200人参与</h4>
+      <div class="list" >
+        <ul class="uls"></ul>
+      </div>
+  </div>
+</body>
+
+</html>
+<script src="./jquery1.7.js"></script>
+<script src="./rotate.js"></script>
+<script>
+  $(function () {
+
+
+    var playnum = 200; //初始次数，由后台传入
+    var isture = 0; //是否正在抽奖
+    var $btn1 = $('.panel'); // 旋转的div
+    $('.playnum').html(playnum); //显示还剩下多少次抽奖机会
+    let panelBox = $('.panel');
+    var numList=[{name:'获得1元'},{name:'获得2元'},{name:'获得3元'},{name:'获得4元'},{name:'获得5元'},{name:'获得6元'}];
+    var isTuhao = false
+
+     //html init
+    getInitHtml(numList)
+    //rotate init
+    getRemoteHtml(numList,numList.length)
+     //list init
+    getListInit()
+   
+
+    //转盘切换
+    
+    $('.btnL').on('click',function(){
+        $('.common').show();
+        $('.special').hide()
+        isTuhao = false
+        getInitHtml(getData(isTuhao))
+        getRemoteHtml(getData(isTuhao),getData(isTuhao).length)
+       
+    })
+
+    $('.btnR').on('click',function(){
+      $('.common').hide();
+      $('.special').show()
+      isTuhao = true
+      getInitHtml(getData(isTuhao))
+      getRemoteHtml(getData(isTuhao),getData(isTuhao).length)
+      
+
+    })
+
+    function getData(res){
+      let data = null;
+      res 
+        ? data = [{name:'获得1元'},{name:'获得2元'},{name:'获得3元'},{name:'获得4元'},{name:'获得5元'},{name:'获得6元'},{name:'获得7元'},{name:'获得8元'},{name:'获得9元'},{name:'获得10元'}]
+        : data = [{name:'获得1元'},{name:'获得2元'},{name:'获得3元'},{name:'获得4元'},{name:'获得5元'},{name:'获得6元'}]
+      return data
+    }
+
+
+   
+   
+
+    function getInitHtml(numList){
+      let boxlist = '';
+      numList.forEach(res=>{
+        boxlist+=`
+        <div class="sector">
+          <div class="sector-inner">
+            <span>${res.name}</span>
+          </div>
+        </div>
+        `
+        panelBox.html(boxlist)
+      })
+    }
+
+   
+  
+    
+    
+
+    //点击旋转
+    var initIndex = 5; //获奖信息，编号，后台控制
+    $(".pointer").click(function () {
+      getGift(initIndex)
+    });
+
+    //init函数进行ajax来获取数据，第三方使用的时候就直接把数据展示
+    //$.ajax({})
+
+    //执行
+    function getGift(initIndex) {
+      if (isture) return; // 如果在执行就退出
+      isture = true; // 标志为 在执行
+      if (playnum <= 0) { //当抽奖次数为0的时候执行
+        alert("没有次数了");
+        $('.playnum').html(0); //次数显示为0
+        isture = false;
+      } else { //还有次数就执行
+        playnum = playnum - 20; //执行转盘了则次数减1
+        if (playnum <= 0) {
+          playnum = 0;
+        }
+        $('.playnum').html(playnum);
+        setTimeout(()=>{
+          clickfunc(initIndex);
+        },0)
+        
+      }
+    }
+    
+    //rotate
+    function clickfunc(index) {
+      let num = document.getElementsByClassName('sector').length
+      let s = 360/num;
+      let degs = Number(`${index*s}`)
+      isture = true;
+      $btn1.stopRotate();
+      $btn1.rotate({
+        angle: 0, //旋转的角度数
+        duration: 4000, //旋转时间
+        animateTo: 360 - degs + 1440 , //给定的角度,让它根据得出来的结果加上1440度旋转
+        callback: function () {
+          isture = false; // 标志为 执行完毕
+          console.log(numList[index].name,123)
+        }
+      });
+    }
+
+    //渲染html内容
+     function getRemoteHtml(numList,num){
+      var sectorsBox = document.getElementsByClassName('sector')
+      var sectorInner = document.getElementsByClassName('sector-inner')
+      var num = sectorsBox.length
+      let s = 0
+      if(360 % num === 0){
+        s = 360 / num
+      }
+      numList.forEach((res,index)=>{
+        let degs = `${index*s-s/2}deg`
+        sectorsBox[index].style.transform =  `rotate(${degs})`
+        sectorInner[index].style.transform = `translateX(-100px) rotate(${s}deg) `
+      })     
+    }
+
+   
+
+    //初始化数据
+    function getListInit(list){
+      var tops = 0;
+      if(timer) return 
+      var timer = setInterval(function(){
+        if(tops == -110){
+          tops = 10
+          $('.uls').css({top:'-20px'})	
+      }
+        tops--
+        $('.uls').css({top:tops})
+      },100)
+      var list = [{names:'张三', tel:'187***232323用户抽到现金1元',time:'2018-12-19'},
+            {names:'张三', tel:'187***232323用户抽到现金2元',time:'2018-12-19'},
+            {names:'张三', tel:'187***232323用户抽到现金3元',time:'2018-12-19'},
+            {names:'张三', tel:'187***232323用户抽到现金4元',time:'2018-12-19'},
+            {names:'张三', tel:'187***232323用户抽到现金5元',time:'2018-12-19'},
+            {names:'张三', tel:'187***232323用户抽到现金6元',time:'2018-12-19'},
+            {names:'张三', tel:'187***232323用户抽到现金7元',time:'2018-12-19'},
+            {names:'张三', tel:'187***232323用户抽到现金8元',time:'2018-12-19'},
+            {names:'张三', tel:'187***232323用户抽到现金9元',time:'2018-12-19'},
+            {names:'张三', tel:'187***232323用户抽到现金10元', time:'2018-12-19'},
+            {names:'张三', tel:'187***232323用户抽到现金11元', time:'2018-12-19'},
+            {names:'张三', tel:'187***232323用户抽到现金12元', time:'2018-12-19'}
+          ]
+      var strs = ''
+      list.forEach(function(val){
+        strs+='<li><span class="spaL">'+val.names+'</span><b>'+val.tel+'</b><span class="spaR">'+val.time+'</span></li>'
+      })
+      $('.uls').html(strs) 
+    }
+  });
+</script>

@@ -1,0 +1,405 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>抽奖</title>
+    <meta name="keywords" content="">
+    <meta name="description" content="">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="renderer" content="webkit">
+    <style>
+    *{
+    	margin:0;
+    	padding:0;
+    	list-style: none;
+    }
+    .g-content {
+        width: 100%;
+        background: #fbe3cc;
+        height: auto;
+        font-family: "微软雅黑", "microsoft yahei";
+    }
+    .g-content .g-lottery-case {
+        width: 500px;
+        margin: 0 auto;
+        overflow: hidden;
+    }
+
+    .g-content .g-lottery-case .g-left h2 {
+        font-size: 20px;
+        line-height: 32px;
+        font-weight: normal;
+        margin-left: 20px;
+        text-align: center;
+    }
+    .g-content .g-lottery-case .g-left .changeBtn{
+     	width:100%;
+     	height:40px;
+     	margin:10px auto;
+    }
+
+    .g-content .g-lottery-case .g-left .changeBtn .btnL{
+     	float: left;
+    }
+
+     .g-content .g-lottery-case .g-left .changeBtn .btnR{
+     	float: right;
+    }
+
+    .g-content .g-lottery-case .g-left {
+        width: 450px;
+        float: left;
+    }
+
+    .g-lottery-box {
+        width: 400px;
+        height: 400px;
+        margin-left: 30px;
+        position: relative;
+        background: url('./imgs/ly-plate-c.gif') no-repeat;
+       
+    }
+    .special{
+    	 display: none;
+    }
+
+    .g-lottery-box .g-lottery-img {
+        width: 340px;
+        height: 340px;
+        position: relative;
+        background: url('./imgs/bg-lottery.png') no-repeat;
+        left: 30px;
+        top: 30px;
+    }
+
+    .g-lottery-box .playbtn1,.playbtn2 {
+        width: 186px;
+        height: 186px;
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        margin-left: -94px;
+        margin-top: -94px;
+        background: url('./imgs/playbtn.png') no-repeat;
+    }
+    .list{
+    	margin:20px auto;
+    	border:1px solid #ccc;
+    	height:200px;
+    	overflow: hidden;
+    	position: relative;
+    		clear: both;
+    }
+    .list ul{
+    	position: absolute;
+    	left:0;
+    	top:0;
+    	width:100%;
+    	clear: both;
+    }
+    .list ul li{
+    	text-align: center;
+    	line-height: 40px;
+    	clear: both;
+    }
+     .list ul li .spaL{
+     	float: left;
+     	padding:0 10px;
+     }
+      .list ul li .spaR{
+      	float: right;
+      	padding:0 10px;
+      }
+      .lv{
+      	width:100%;
+      	height:150px;
+      	margin:20px auto;
+      
+      }
+      .lv button{
+      	width:50px;
+      	height:40px;
+      	text-align: center;
+      	line-height: 20px;
+      	background: #fff;
+      	border-radius: 5px;
+      	outline: none;
+      }
+      .lv span{
+      	padding:8px 10px;
+      	border:1px solid #ccc;
+      	background: blue;
+      	border-radius: 5px;
+      	color:#fff;
+      }
+      .lv p{
+      	text-align: center;
+      	line-height: 40px;
+      	border: 1px solid #ccc;
+      	border-radius: 5px;
+      	background: #fff;
+      }
+      .lv .lv_l{
+      	float: left;
+      }
+      .lv .lv_r{
+      	float: right;
+      }
+    </style>
+</head>
+<body>
+<div class="g-content">
+    <div class="g-lottery-case">
+        <div class="g-left">
+            <h2>您的积分剩余<span class="playnum"></span></h2>
+            <div class="changeBtn">
+            	<button class="btns btnL">普通转盘</button>
+            	<button class="btns btnR">豪华转盘</button>
+            </div>
+            <div class="g-lottery-box common">
+                <div class="g-lottery-img1 g-lottery-img">
+                </div>
+                <a class="playbtn1" href="javascript:;" title="开始抽奖"></a>
+            </div>
+
+             <div class="g-lottery-box special">
+                <div class="g-lottery-img2 g-lottery-img">
+                </div>
+                <a class="playbtn2" href="javascript:;" title="开始抽奖"></a>
+            </div>
+            <div class="lv">
+            	<div class="lv_l">
+            		<div calss="tops">
+            			<p>选择1</p>
+            			<div>
+            				<button class="btnSub">-</button><span class="vals1 spanVal">10</span><button class="btnAdd">+</button>
+            			</div>
+            		</div>
+            		<div calss="tops">
+            			<p>选择2</p>
+            			<div>
+            				<button class="btnSub">-</button><span class="vals2 spanVal">20</span><button class="btnAdd">+</button>
+            			</div>
+            		</div>
+            	</div>
+            	<div class="lv_r">
+            		<div calss="tops">
+            			<p>选择3</p>
+            			<div>
+            				<button class="btnSub">-</button><span class="vals3 spanVal">30</span><button class="btnAdd">+</button>
+            			</div>
+            		</div>
+            		<div calss="tops">
+            			<p>选择4</p>
+            			<div>
+            				<button class="btnSub">-</button><span class="vals4 spanVal">40</span><button class="btnAdd">+</button>
+            			</div>
+            		</div>
+            	</div>
+            </div>
+            <h4 style="clear:both;">已经有200人参与</h4>
+            <div class="list">
+
+            	<ul class="uls">
+            		
+            	</ul>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="./jquery1.7.js"></script>
+<script src="./rotate.js"></script>
+<script></script>
+<script>
+$(function() {
+	getListInit()
+
+	//初始化数据
+	function getListInit(list){
+		if(list){
+
+		}else{
+			var list = [{names:'张三', tel:'187***232323用户抽到现金1元',time:'2018-12-19'},
+						{names:'张三', tel:'187***232323用户抽到现金2元',time:'2018-12-19'},
+						{names:'张三', tel:'187***232323用户抽到现金3元',time:'2018-12-19'},
+						{names:'张三', tel:'187***232323用户抽到现金4元',time:'2018-12-19'},
+						{names:'张三', tel:'187***232323用户抽到现金5元',time:'2018-12-19'},
+						{names:'张三', tel:'187***232323用户抽到现金6元',time:'2018-12-19'},
+						{names:'张三', tel:'187***232323用户抽到现金7元',time:'2018-12-19'},
+						{names:'张三', tel:'187***232323用户抽到现金8元',time:'2018-12-19'},
+						{names:'张三', tel:'187***232323用户抽到现金9元',time:'2018-12-19'},
+						{names:'张三', tel:'187***232323用户抽到现金10元', time:'2018-12-19'},
+						{names:'张三', tel:'187***232323用户抽到现金11元', time:'2018-12-19'},
+						{names:'张三', tel:'187***232323用户抽到现金12元', time:'2018-12-19'}
+					]
+			var strs = ''
+			list.forEach(function(val){
+				strs+='<li><span class="spaL">'+val.names+'</span><b>'+val.tel+'</b><span class="spaR">'+val.time+'</span></li>'
+			})
+			$('.uls').html(strs)
+		}
+		
+	}
+	
+	//转盘切换
+	var isTuhao = false
+	$('.btnL').on('click',function(){
+    	$('.common').show();
+    	$('.special').hide()
+    	isTuhao = false
+    })
+
+    $('.btnR').on('click',function(){
+    	$('.common').hide();
+    	$('.special').show()
+    	isTuhao = true
+    })
+
+    //概率加减
+    $('.btnSub').on('click',function(){
+    	var vas = Number($(this).siblings('span').html())
+    		vas--
+    		if(vas<0){
+    			return
+    		}
+    	var s = requireZero(vas)
+    	$(this).siblings('span').html(s)
+    })
+    
+    $('.btnAdd').on('click',function(){
+    	var vas = Number($(this).siblings('span').html())
+    		vas++
+    		var s = requireZero(vas)
+    	$(this).siblings('span').html(s)
+    })
+
+    //补全个位
+    function requireZero(val){
+    	return  val<10 ? '0'+val : val
+    }
+
+
+
+    var $btn1 = $('.g-lottery-img1');// 旋转的div
+    var $btn2 = $('.g-lottery-img2');// 旋转的div
+    var playnum = 200; //初始次数，由后台传入
+    $('.playnum').html(playnum);//显示还剩下多少次抽奖机会
+    var isture = 0;//是否正在抽奖
+    var clickfunc = function(dm) {
+        var data = [1, 2, 3, 4, 5, 6,7];//抽奖
+        //data为随机出来的结果，根据概率后的结果
+        data = data[Math.floor(Math.random() * data.length)];//1~6的随机数
+        switch(data) {
+            case 1:
+                rotateFunc(1, 0, '恭喜您获得2000元理财金');
+                break;
+            case 2:
+                rotateFunc(2, 0, '恭喜您获得2000元理财金2');
+                break;
+            case 3:
+                rotateFunc(3, 0, '恭喜您获得2000元理财金3');
+                break;
+            case 4:
+                rotateFunc(4, -60, '谢谢参与4');
+                break;
+            case 5:
+                rotateFunc(5, 120, '谢谢参与5');
+                break;
+            case 6:
+                rotateFunc(6, 120, '谢谢参与6');
+                break;
+            case 7:
+                rotateFunc(7, 180, '谢谢参与7');
+                break;
+        }
+    }
+
+
+    $(".playbtn1").click(function(e) {
+    	getGift(e)
+    });
+
+
+    $(".playbtn2").click(function(e) {
+    	getGift(e)
+    });
+
+    //执行
+    function getGift(e){
+	 	e.preventDefault();
+		e.stopPropagation();
+	    if(isture) return; // 如果在执行就退出
+	    isture = true; // 标志为 在执行
+	    if(playnum <= 0) { //当抽奖次数为0的时候执行
+	        alert("没有次数了");
+	        $('.playnum').html(0);//次数显示为0
+	        isture = false;
+	    } else { //还有次数就执行
+	        playnum = playnum - 20; //执行转盘了则次数减1
+	        if(playnum <= 0) {
+	            playnum = 0;
+	        }
+	        $('.playnum').html(playnum);
+	        clickfunc();
+
+	        var lvs1 = $('.vals1').html();
+	        var lvs2 = $('.vals2').html();
+	        var lvs3 = $('.vals3').html();
+	        var lvs4 = $('.vals4').html();
+	        var urls = 'www.baidu.com';
+	        getAjax('post',urls,{
+	        	val1:lvs1,
+	        	val2:lvs2,
+	        	val3:lvs3,
+	        	val4:lvs4,
+	        	isTuhao:isTuhao
+	        },function(res){
+	        	console.log(res)
+	        })
+	        
+	    }
+	 }
+    var rotateFunc = function(awards, angle, text) {
+    	var doms = isTuhao ? $btn2 : $btn1
+    	var pName = isTuhao ? '豪华转盘' : '普通转盘'
+        isture = true;
+        doms.stopRotate();
+        doms.rotate({
+            angle: 0,//旋转的角度数
+            duration: 4000, //旋转时间
+            animateTo: angle + 1440, //给定的角度,让它根据得出来的结果加上1440度旋转
+            callback: function() {
+                isture = false; // 标志为 执行完毕
+               console.log(text,pName,111)
+            }
+        });
+    };
+   	//名单显示
+    var s = 0;
+    if(timer) return 
+    var timer = setInterval(function(){
+    		
+    	if(s == -110){
+    		s = 10
+    		$('.uls').css({top:'-20px'})	
+		}
+		s--
+    	$('.uls').css({top:s})
+    },100)
+
+	//ajax
+	function getAjax(methods,url,data,cb){
+		console.log(data)
+		$.ajax({
+			method:methods,
+			url:url,
+			data:data,
+			dataType:'json',
+			success:cb
+		})
+	}
+	
+});
+</script>
+</body>
+</html>
